@@ -46,6 +46,7 @@ class D {
       'Friday',
       'Saturday'
     ];
+    return days[this._date.getDay()];
   }
 
   get dy() {
@@ -69,12 +70,71 @@ class D {
   get secs() {
     return this._date.getSeconds();
   }
-}
 
-// Test different instantiation methods
-console.log('No parameters:', new D());
-console.log('With string:', new D('January 1, 1970'));
-console.log('With numbers:', new D(2010, 6, 13, 25, 50));
-console.log('With another Date object:', new D(new Date()));
+  /**
+   * Formats the date based on the provided mask.
+   * @param {String} mask - The mask to format the date.
+   * @returns {String} - The formatted date.
+   */
+  format(mask = 'Y M D') { // Default format
+    const formatMap = {
+      'Y': this.year.toString(),
+      'y': this.yr.toString().padStart(2, '0'),
+      'M': this.month,
+      'm': this.mon,
+      'D': this.date.toString().padStart(2, '0'),
+      'd': this.date.toString(),
+      'L': this.day,
+      'l': this.dy,
+      '#': this._getOrdinal(),
+      'H': this.hours.toString().padStart(2, '0'),
+      'h': this.hours.toString(),
+      'I': this.mins.toString().padStart(2, '0'),
+      'i': this.mins.toString(),
+      'S': this.secs.toString().padStart(2, '0'),
+      's': this.secs.toString(),
+    };
+
+    let formatted = '';
+    let escapeNext = false;
+
+    for (let char of mask) {
+      if (escapeNext) {
+        formatted += char;
+        escapeNext = false;
+        continue;
+      }
+
+      if (char === '\\') {
+        escapeNext = true;
+        continue;
+      }
+
+      if (formatMap[char] !== undefined) {
+        formatted += formatMap[char];
+      } else {
+        formatted += char;
+      }
+    }
+
+    return formatted;
+  }
+
+  /**
+   * Returns the date with ordinal suffix.
+   * @returns {String} - Date with ordinal suffix (e.g., 1st, 2nd).
+   * @private
+   */
+  _getOrdinal() {
+    const date = this.date;
+    if (date > 3 && date < 21) return `${date}th`;
+    switch (date % 10) {
+      case 1: return `${date}st`;
+      case 2: return `${date}nd`;
+      case 3: return `${date}rd`;
+      default: return `${date}th`;
+    }
+  }
+}
 
 module.exports = D;
