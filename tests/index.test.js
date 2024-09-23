@@ -31,4 +31,6 @@ describe('D class', () => {
     expect(d._date).toBeInstanceOf(Date);
     expect(d._date.getTime()).toBe(originalDate.getTime());
   });
+
+  
 });
