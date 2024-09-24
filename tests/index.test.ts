@@ -1,35 +1,28 @@
-const D = require('../src/index');
+import D from '../src/index';
 
 describe('D class', () => {
   test('should create a date with no parameters', () => {
     const d = new D();
-    expect(d._date).toBeInstanceOf(Date);
+    const now = new Date();
+    expect(d.format('Y')).toBe(now.getFullYear().toString());
+    expect(d.format('M')).toBe(d.month);
+    expect(parseInt(d.format('D'))).toBe(now.getDate());
   });
 
   test('should create a date from a string', () => {
     const d = new D('9/26/1965');
-    expect(d._date).toBeInstanceOf(Date);
-    expect(d._date.getFullYear()).toBe(1965);
-    expect(d._date.getMonth()).toBe(8); // September is 8 (0-indexed)
-    expect(d._date.getDate()).toBe(26);
+    expect(d.format('Y-M-D')).toBe('1965-September-26');
   });
 
   test('should create a date from numbers', () => {
     const d = new D(1970, 0, 1, 0, 0, 0);
-    expect(d._date).toBeInstanceOf(Date);
-    expect(d._date.getFullYear()).toBe(1970);
-    expect(d._date.getMonth()).toBe(0);
-    expect(d._date.getDate()).toBe(1);
-    expect(d._date.getHours()).toBe(0);
-    expect(d._date.getMinutes()).toBe(0);
-    expect(d._date.getSeconds()).toBe(0);
+    expect(d.format('Y-M-D H:I:S')).toBe('1970-January-01 00:00:00');
   });
 
   test('should create a date from another Date object', () => {
     const originalDate = new Date(2000, 0, 1);
     const d = new D(originalDate);
-    expect(d._date).toBeInstanceOf(Date);
-    expect(d._date.getTime()).toBe(originalDate.getTime());
+    expect(d.format('Y-M-D')).toBe('2000-January-01');
   });
   
   describe('format()', () => {
@@ -77,7 +70,7 @@ describe('D class', () => {
   
   describe('when()', () => {
     beforeAll(() => {
-      jest.useFakeTimers('modern');
+      jest.useFakeTimers();
       jest.setSystemTime(new Date(2023, 5, 15)); // Set current date to June 15, 2023
     });
 

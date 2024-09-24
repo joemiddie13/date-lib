@@ -1,83 +1,78 @@
 class D {
-  constructor(...args) {
-    this._date = new Date(...args);
+  private _date: Date;
+
+  constructor(...args: any[]) {
+    if (args.length === 0) {
+      this._date = new Date();
+    } else if (args.length === 1 && args[0] instanceof Date) {
+      this._date = new Date(args[0].getTime());
+    } else if (args.length === 1 && typeof args[0] === 'string') {
+      this._date = new Date(args[0]);
+    } else {
+      this._date = new Date(args[0] as number, args[1] as number, ...(args.slice(2) as number[]));
+    }
   }
 
   // Year Getters
-  get year() {
+  get year(): number {
     return this._date.getFullYear();
   }
 
-  get yr() {
+  get yr(): number {
     return this._date.getFullYear() % 100;
   }
 
   // Month Getters
-  get month() {
-    const months = [
-      'January', 
-      'February', 
-      'March', 
-      'April', 
-      'May', 
-      'June', 
-      'July', 
-      'August', 
-      'September',
-      'October',
-      'November',
-      'December'
+  get month(): string {
+    const months: string[] = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
     ];
     return months[this._date.getMonth()];
   }
 
-  get mon() {
+  get mon(): string {
     return this.month.substring(0, 3);
   }
 
   // Day Getters
-  get day() {
-    const days = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday'
+  get day(): string {
+    const days: string[] = [
+      'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+      'Thursday', 'Friday', 'Saturday'
     ];
     return days[this._date.getDay()];
   }
 
-  get dy() {
+  get dy(): string {
     return this.day.substring(0, 3);
   }
 
   // Date Getter
-  get date() {
+  get date(): number {
     return this._date.getDate();
   }
 
   // Time Getters
-  get hours() {
+  get hours(): number {
     return this._date.getHours();
   }
 
-  get mins() {
+  get mins(): number {
     return this._date.getMinutes();
   }
 
-  get secs() {
+  get secs(): number {
     return this._date.getSeconds();
   }
 
   /**
    * Formats the date based on the provided mask.
-   * @param {String} mask - The mask to format the date.
-   * @returns {String} - The formatted date.
+   * @param {string} mask - The mask to format the date.
+   * @returns {string} - The formatted date.
    */
-  format(mask = 'Y M D') { // Default format
-    const formatMap = {
+  format(mask: string = 'Y M D'): string {
+    const formatMap: { [key: string]: string } = {
       'Y': this.year.toString(),
       'y': this.yr.toString().padStart(2, '0'),
       'M': this.month,
@@ -122,10 +117,10 @@ class D {
 
   /**
    * Returns the date with ordinal suffix.
-   * @returns {String} - Date with ordinal suffix (e.g., 1st, 2nd).
+   * @returns {string} - Date with ordinal suffix (e.g., 1st, 2nd).
    * @private
    */
-  _getOrdinal() {
+  private _getOrdinal(): string {
     const date = this.date;
     if (date > 3 && date < 21) return `${date}th`;
     switch (date % 10) {
@@ -140,7 +135,7 @@ class D {
    * Returns a human-readable description of when the date will occur relative to now.
    * @returns {string} A string describing when the date will occur.
    */
-  when() {
+  when(): string {
     const now = new Date();
     const diff = this._date.getTime() - now.getTime();
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -174,7 +169,8 @@ class D {
     } else if (diffYears < -1) {
       return `${-diffYears} years ago`;
     }
+    return '';
   }
 }
 
-module.exports = D;
+export default D;
