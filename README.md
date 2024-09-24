@@ -14,7 +14,7 @@ Date-Lib is a lightweight and flexible JavaScript library for date manipulation 
 You can install Date-Lib using npm:
 
 ```bash
-npm install date-lib
+npm install @joemiddie13/date-lib
 ```
 
 ## Usage
