@@ -71,7 +71,7 @@ describe('D class', () => {
   describe('when()', () => {
     beforeAll(() => {
       jest.useFakeTimers();
-      jest.setSystemTime(new Date(2023, 5, 15)); // Set current date to June 15, 2023
+      jest.setSystemTime(new Date(2023, 5, 15));
     });
 
     afterAll(() => {
