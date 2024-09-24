@@ -75,4 +75,59 @@ describe('D class', () => {
     });
   });
   
+  describe('when()', () => {
+    beforeAll(() => {
+      jest.useFakeTimers('modern');
+      jest.setSystemTime(new Date(2023, 5, 15)); // Set current date to June 15, 2023
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
+    test('should return "today" for current date', () => {
+      const d = new D(2023, 5, 15);
+      expect(d.when()).toBe('today');
+    });
+
+    test('should return "tomorrow" for next day', () => {
+      const d = new D(2023, 5, 16);
+      expect(d.when()).toBe('tomorrow');
+    });
+
+    test('should return "yesterday" for previous day', () => {
+      const d = new D(2023, 5, 14);
+      expect(d.when()).toBe('yesterday');
+    });
+
+    test('should return "X days from now" for near future', () => {
+      const d = new D(2023, 5, 20);
+      expect(d.when()).toBe('5 days from now');
+    });
+
+    test('should return "X days ago" for near past', () => {
+      const d = new D(2023, 5, 10);
+      expect(d.when()).toBe('5 days ago');
+    });
+
+    test('should return "X months from now" for future months', () => {
+      const d = new D(2023, 8, 15);
+      expect(d.when()).toBe('3 months from now');
+    });
+
+    test('should return "X months ago" for past months', () => {
+      const d = new D(2023, 2, 15);
+      expect(d.when()).toBe('3 months ago');
+    });
+
+    test('should return "X years from now" for future years', () => {
+      const d = new D(2025, 5, 15);
+      expect(d.when()).toBe('2 years from now');
+    });
+
+    test('should return "X years ago" for past years', () => {
+      const d = new D(2021, 5, 15);
+      expect(d.when()).toBe('2 years ago');
+    });
+  });
 });
