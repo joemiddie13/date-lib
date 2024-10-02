@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import D from 'date-lib';
+import D from '@joemiddie13/date-lib';
 
 const DateDisplay: React.FC = () => {
   const [date, setDate] = useState(new D());
