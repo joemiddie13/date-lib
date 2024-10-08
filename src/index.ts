@@ -2,6 +2,7 @@ class D {
   private _date: Date;
 
   constructor(...args: any[]) {
+    // this._date = new Date(...args);
     if (args.length === 0) {
       this._date = new Date();
     } else if (args.length === 1 && args[0] instanceof Date) {

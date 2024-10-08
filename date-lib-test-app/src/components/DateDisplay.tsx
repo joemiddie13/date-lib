@@ -5,6 +5,7 @@ const DateDisplay: React.FC = () => {
   const [date, setDate] = useState(new D());
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
     setDate(new D(event.target.value));
   };
 

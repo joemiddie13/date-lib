@@ -1,13 +1,21 @@
 {
   "name": "@joemiddie13/date-lib",
-  "version": "1.0.0",
-  "main": "dist/index.js",
+  "version": "2.0.0",
+  "main": "dist/bundle.umd.js",
+  "module": "dist/bundle.esm.js",
+  "exports": {
+    ".": {
+      "require": "./dist/bundle.umd.js",
+      "import": "./dist/bundle.esm.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "directories": {
     "test": "tests"
   },
+  "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "test": "jest",
     "prepublishOnly": "npm run build"
   },
@@ -16,11 +24,15 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@types/jest": "^29.5.13",
     "@types/node": "^20.8.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
+    "rollup": "^4.24.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.2.2"
+    "typescript": "^5.6.2"
   }
 }
